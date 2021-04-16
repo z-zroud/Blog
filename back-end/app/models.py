@@ -95,7 +95,7 @@ class User(PaginatedAPIMixin, db.Model):
         return jwt.encode(
             payload,
             current_app.config['SECRET_KEY'],
-            algorithm='HS256')
+            algorithm='HS256').decode('utf-8')
 
     @staticmethod
     def verify_jwt(token):
@@ -107,3 +107,8 @@ class User(PaginatedAPIMixin, db.Model):
         except jwt.exceptions.ExpiredSignatureError as e:
             return None
         return User.query.get(payload.get('user_id'))
+    
+    def avatar(self, size):
+        '''头像'''
+        digest = md5(self.email.lower().encode('utf-8')).hexdigest()
+        return 'https://www.gravatar.com/avatar/{}?d=identicon&s={}'.format(digest, size)

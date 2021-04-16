@@ -30,7 +30,7 @@
             <a class="nav-link disabled" href="#">Messages</a>
           </li>
           <li class="nav-item">
-            <router-link to="/profile" class="nav-link">Profile</router-link>
+            <router-link v-bind:to="{ name: 'Profile', params: { id: sharedState.user_id }}" class="nav-link">Profile</router-link>
           </li>
           <li class="nav-item">
             <router-link to="/login" class="nav-link">Login</router-link>
@@ -42,7 +42,21 @@
 </template>
 
 <script>
+import store from '../store.js'
+
 export default {
-  name: 'Navbar'  //this is the name of the component
+  name: 'Navbar',  //this is the name of the component
+  data () {
+    return {
+      sharedState: store.state
+    }
+  },
+  methods: {
+    handlerLogout (e) {
+      store.logoutAction()
+      this.$toasted.show('You have been logged out.', { icon: 'fingerprint' })
+      this.$router.push('/login')
+    }
+  }
 }
 </script>
