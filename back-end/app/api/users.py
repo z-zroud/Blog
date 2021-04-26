@@ -1,5 +1,5 @@
 import re
-from flask import request, jsonify, url_for
+from flask import request, jsonify, url_for, g
 from app import db
 from app.api import bp
 from app.api.auth import token_auth
@@ -50,12 +50,16 @@ def get_users():
 
 @bp.route('/users/<int:id>', methods=['GET'])
 @token_auth.login_required
-def get_user():
+def get_user(id):
+    user = User.query.get_or_404(id)
+    if g.current_user == user:
+        return jsonify(User.query.get_or_404(id).to_dict(include_email=True))
     return jsonify(User.query.get_or_404(id).to_dict())
 
 
 @bp.route('/users/<int:id>', methods=['PUT'])
-def update_user():
+@token_auth.login_required
+def update_user(id):
     user = User.query.get_or_404(id)
     data = request.get_json()
     if not data:

@@ -25,19 +25,16 @@ export default {
     return {
       alerts: [
         {
-          showAlert: true,
-          alertVariant: 'danger',
-          alertMessage: 0
+          variant: 'info',
+          message: 'Hi'
         },
         {
-          showAlert: true,
-          alertVariant: 'info',
-          alertMessage: 1
+          variant: 'danger',
+          message: 'Oops..'
         },
         {
-          showAlert: true,
-          alertVariant: 'dark',
-          alertMessage: 2
+          variant: 'success',
+          message: 'OK'
         }
       ]
     }
