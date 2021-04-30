@@ -1,11 +1,12 @@
 from flask import g
-from app.models import User
-from app.extensions import db
-from app.api.errors import error_response
 from flask_httpauth import HTTPBasicAuth, HTTPTokenAuth
+from app.api.errors import error_response
+from app.extensions import db
+from app.models import User
 
 basic_auth = HTTPBasicAuth()
 token_auth = HTTPTokenAuth()
+
 
 @basic_auth.verify_password
 def verify_password(username, password):
